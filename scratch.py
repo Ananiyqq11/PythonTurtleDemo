@@ -1,78 +1,109 @@
-from turtle import *
+import time
+import turtle
+import random
+# window screen set up
+wn = turtle.Screen()
+wn.title("Snake Game")
+wn.setup(800, 600)
+wn.tracer(0)
+s = turtle.Screen()
+s.bgcolor("turquoise")
+delay = 0.1
+# Snake body
+head = turtle.Turtle()
+head.speed(0)
+head.shape("square")
+head.penup()
+head.color("orange")
+head.goto(0, 0)
+head.direction = "stop"
+# food
+food = turtle.Turtle()
+food.speed(0)
+food.color("black")
+food.shape("circle")
+food.penup()
+food.goto(0, 150)
+segments = []
 
-print("Enter the number two")
-num = int(input("num : "))
-if num == 2:
-    for i in range(0, 4):
-        forward(150)
-        left(90)
-    for i in range(0, 3):
-        backward(150)
-        right(90)
-    backward(300)
-    left(90)
-    for i in range(0, 2):
-        forward(150)
-        right(90)
-    penup()
+#
 
-    forward(300)
 
-    pendown()
+def go_up():
+    head.direction = "up"
 
-    right(90)
-    forward(150)
-    right(90)
-    forward(150)
-    right(45)
-    forward(212)
-    right(90)
-    forward(210)
-    right(90)
-    forward(212)
-    right(90)
-    forward(212)
-else:
-    print("You didn't enter the number two")
-    done()
 
-# Python program to user input pattern
-# using Turtle Programming
-import turtle  # Outside_In
-# import turtle
-# import time
-# import random
-#
-# print("This program draws shapes based on the number you enter in a uniform pattern.")
-# num_str = input("Enter the side number of the shape you want to draw: ")
-# if num_str.isdigit():
-#     squares = int(num_str)
-#
-# angle = 180 - 180 * (squares - 2) / squares
-#
-# turtle.up
-#
-# x = 0
-# y = 0
-# turtle.setpos(x, y)
-#
-# numshapes = 8
-# for x in range(numshapes):
-#     turtle.color(random.random(), random.random(), random.random())
-#     x += 5
-#     y += 5
-#     turtle.forward(x)
-#     turtle.left(y)
-#     for i in range(squares):
-#         turtle.begin_fill()
-#         turtle.down()
-#         turtle.forward(40)
-#         turtle.left(angle)
-#         turtle.forward(40)
-#         print(turtle.pos())
-#         turtle.up()
-#         turtle.end_fill()
-#
-# time.sleep(11)
-# turtle.end()
+def go_down():
+    head.direction = "down"
 
+
+def go_left():
+    head.direction = "left"
+
+
+def go_right():
+    head.direction = "right"
+
+
+#
+wn.listen()
+wn.onkeypress(go_up, "Up")
+wn.onkeypress(go_down, "Down")
+wn.onkeypress(go_left, "Left")
+wn.onkeypress(go_right, "Right")
+
+
+# movement
+def up_movement():
+    if head.direction == "up":
+        y = head.ycor()
+        head.sety(y + 10)
+
+
+def down_movement():
+    if head.direction == "down":
+        y = head.ycor()
+        head.sety(y - 10)
+
+
+def left_movement():
+    if head.direction == "left":
+        x = head.xcor()
+        head.setx(x - 10)
+
+
+def right_movement():
+    if head.direction == "right":
+        x = head.xcor()
+        head.setx(x + 10)
+
+
+# main game loop
+while True:
+    wn.update()
+    if head.distance(food) < 20:
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
+        food.goto(x, y)
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("arrow")
+        new_segment.color("blue")
+        new_segment.penup()
+        segments.append(new_segment)
+    for i in range(len(segments)-1, 0, -1):
+        x = segments[i-1].xcor()
+        y = segments[i - 1].ycor()
+        segments[i].goto(x, y)
+    if len(segments) > 0:
+        x = head.xcor()
+        y = head.ycor()
+        segments[0].goto(x, y)
+    up_movement()
+    right_movement()
+    left_movement()
+    down_movement()
+    time.sleep(delay)
+
+wn.mainloop()
+done()
