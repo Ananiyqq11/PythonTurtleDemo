@@ -82,15 +82,23 @@ def right_movement():
 while True:
     wn.update()
     #my adjustments
-    if head.xcor() > 290:
-        head.goto(-290, 0)
-    if head.xcor() < -290:
-        head.goto(290, 0)
-    if head.ycor() > 290:
-        head.goto(0, -290)
-    if head.ycor() < -290:
-        head.goto(0, 290)
-    #
+   # if head.xcor() > 290:
+    #    head.goto(-290, 0)
+    #if head.xcor() < -290:
+     #   head.goto(290, 0)
+    #if head.ycor() > 290:
+     #   head.goto(0, -290)
+    #if head.ycor() < -290:
+     #   head.goto(0, 290)
+
+    if head.xcor() > 290 or head.ycor() > 290 or head.xcor() < -290 or head.ycor() < -290:
+        time.sleep(1)
+        head.goto(0, 0)
+        head.direction = "stop"
+        #for(segment in segments)
+         #   segment.color("turquoise")
+        #segments.goto(1000, 1000)
+        segments.clear()
     if head.distance(food) < 20:
         x = random.randint(-290, 290)
         y = random.randint(-290, 290)
